@@ -39,7 +39,7 @@ import { useRouter } from "next/navigation";
 
 export const AddTransactionButton = () => {
     const [open, setIsOpen] = useState<boolean>(false);
-    const router = useRouter()
+    const router = useRouter();
 
     const {
         register,
@@ -48,7 +48,9 @@ export const AddTransactionButton = () => {
         control,
         formState: { errors, isSubmitting },
     } = useForm<CreateTransactionFormData>({
-        resolver: zodResolver(createTransactionFormSchema) as unknown as Resolver<CreateTransactionFormData>,
+        resolver: zodResolver(
+            createTransactionFormSchema,
+        ) as unknown as Resolver<CreateTransactionFormData>,
         defaultValues: {
             name: "",
             amount: undefined,
@@ -65,7 +67,7 @@ export const AddTransactionButton = () => {
             await addTransaction(data);
             reset();
             setIsOpen(false);
-            router.refresh()
+            router.refresh();
         } catch (err) {
             console.log(err);
         }
@@ -239,7 +241,14 @@ export const AddTransactionButton = () => {
                             )}
                         </div>
                         <DialogFooter className="gap-4 border-none bg-[#1E293B] flex flex-row">
-                            <button className="border border-[#CAD5E2] rounded-lg w-1/3 py-2.5 cursor-pointer">
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    setIsOpen(false);
+                                    reset();
+                                }}
+                                className="border border-[#CAD5E2] rounded-lg w-1/3 py-2.5 cursor-pointer"
+                            >
                                 Cancelar
                             </button>
                             <button
