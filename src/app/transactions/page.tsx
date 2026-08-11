@@ -3,7 +3,6 @@ import { Inter } from "next/font/google";
 
 import Sidebar from "@/src/app/_components/sidebar";
 import Header from "@/src/app/_components/header";
-import editIcon from "@/src/assets/transactions/pencil-icon.png";
 import deleteIcon from "@/src/assets/transactions/dump-icon.png";
 import {
     Table,
@@ -18,6 +17,7 @@ import { prisma } from "@/src/lib/prisma";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { TransactionType } from "@prisma/client";
+import { deleteTransaction } from "../_actions/delete-transaction";
 import {
     TRANSACTION_TYPE_LABELS,
     TRANSACTION_CATEGORY_LABELS,
@@ -75,7 +75,7 @@ export default async function TransactionsPage() {
             <div className={`flex flex-1 flex-col ${inter.className}`}>
                 <Header userName={session.user.name} />
 
-                <main className="p-8">
+                <main className="p-4 md:p-8">
                     <section className="space-y-1">
                         <h1 className="text-[30px] font-bold leading-[1.2] tracking-[-0.025em] text-white">
                             Transacoes
@@ -86,7 +86,7 @@ export default async function TransactionsPage() {
                     </section>
 
                     <section className="mt-6 overflow-hidden rounded-3xl border border-white/10 bg-[rgba(30,41,59,0.8)] shadow-[0px_8px_10px_-6px_rgba(0,0,0,0.2),0px_20px_25px_-5px_rgba(0,0,0,0.2)]">
-                        <Table>
+                        <Table className="hidden lg:table w-full">
                             <TableHeader className="bg-white/6">
                                 <TableRow className="border-b border-white/10 hover:bg-transparent">
                                     <TableHead className="h-auto px-4 py-4 text-xs font-semibold uppercase tracking-[0.05em] text-[#CAD5E2]">
@@ -173,17 +173,24 @@ export default async function TransactionsPage() {
                                                 )}
                                             </TableCell>
                                             <TableCell className="px-4 py-5">
-                                                <div className="flex justify-end gap-4">
-                                                    <Image
-                                                        src={editIcon}
-                                                        alt="Editar transacao"
-                                                        className="cursor-pointer"
-                                                    />
-                                                    <Image
-                                                        src={deleteIcon}
-                                                        alt="Deletar transação"
-                                                        className="cursor-pointer"
-                                                    />
+                                                <div className="flex justify-end mr-3">
+                                                    <form
+                                                        action={deleteTransaction.bind(
+                                                            null,
+                                                            transaction.id,
+                                                        )}
+                                                    >
+                                                        <button
+                                                            type="submit"
+                                                            className="hover:opacity-80 transition-opacity"
+                                                        >
+                                                            <Image
+                                                                src={deleteIcon}
+                                                                alt="Deletar transação"
+                                                                className="cursor-pointer"
+                                                            />
+                                                        </button>
+                                                    </form>
                                                 </div>
                                             </TableCell>
                                         </TableRow>
@@ -191,6 +198,92 @@ export default async function TransactionsPage() {
                                 )}
                             </TableBody>
                         </Table>
+                        <div className="lg:hidden flex flex-col gap-3 p-4">
+                            {transactions.length === 0 ? (
+                                <p className="text-center text-[#94A3B8]">
+                                    Nenhuma transação encontrada
+                                </p>
+                            ) : (
+                                transactions.map((transaction) => (
+                                    <div
+                                        key={transaction.id}
+                                        className="bg-[#161B26] p-4 rounded-xl border border-white/10"
+                                    >
+                                        <div className="flex justify-between items-center">
+                                            <span className="font-semibold text-white">
+                                                {transaction.name}
+                                            </span>
+
+                                            <span
+                                                className={`text-sm font-semibold ${
+                                                    transaction.type ===
+                                                    "EXPENSE"
+                                                        ? "text-[#FF6467]"
+                                                        : "text-[#00D492]"
+                                                }`}
+                                            >
+                                                {formatCurrency(
+                                                    Number(transaction.amount),
+                                                )}
+                                            </span>
+                                        </div>
+
+                                        <div className="mt-2 text-sm text-[#90A1B9]">
+                                            {
+                                                TRANSACTION_CATEGORY_LABELS[
+                                                    transaction.category
+                                                ]
+                                            }{" "}
+                                            •{" "}
+                                            {
+                                                TRANSACTION_PAYMENT_METHOD_LABELS[
+                                                    transaction.paymentMethod
+                                                ]
+                                            }
+                                        </div>
+
+                                        <div className="flex justify-between items-center mt-3">
+                                            <span className="text-xs text-[#90A1B9]">
+                                                {formatDate(transaction.date)}
+                                            </span>
+
+                                            <span
+                                                className={`text-xs px-2 py-1 rounded-full ${
+                                                    TYPE_BADGE_STYLES[
+                                                        transaction.type
+                                                    ]
+                                                }`}
+                                            >
+                                                {
+                                                    TRANSACTION_TYPE_LABELS[
+                                                        transaction.type
+                                                    ]
+                                                }
+                                            </span>
+                                        </div>
+                                        <div className="flex justify-end mt-3">
+                                            <form
+                                                action={deleteTransaction.bind(
+                                                    null,
+                                                    transaction.id,
+                                                )}
+                                            >
+                                                <button
+                                                    type="submit"
+                                                    className="hover:opacity-80 transition-opacity"
+                                                >
+                                                    <Image
+                                                        src={deleteIcon}
+                                                        alt="Deletar transação"
+                                                        className="cursor-pointer"
+                                                    />
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                ))
+                            )}
+                        </div>
                     </section>
                 </main>
             </div>
