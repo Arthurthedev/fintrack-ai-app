@@ -40,7 +40,6 @@ const {
 
 const onSubmit = async (data: SignUpFormData) => {
     try {
-        console.log(data);
         const { data: result, error: err } = await authClient.signUp.email({
             name: data.name,
             email: data.email,

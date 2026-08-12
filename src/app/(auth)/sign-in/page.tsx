@@ -41,7 +41,6 @@ export default function SingInPage() {
 
     const onSubmit = async (data: SignInFormData) => {
         try {
-            console.log(data);
             const { data: result, error: err } = await authClient.signIn.email({
                 email: data.email,
                 password: data.password,
