@@ -1,6 +1,9 @@
 # 💰 FinTrackAI — Controle Financeiro com Insights Inteligentes
-
 <img src="public/Previews/Preview.gif" alt="preview da aplicação">
+
+## Deploy da aplicação 
+
+[![Deploy na Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://fintrack-ai-dashboard-arthurmdev.vercel.app/sign-in)
 
 ## Sobre o Projeto
 
