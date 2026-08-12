@@ -18,11 +18,11 @@ export default async function Home({ searchParams }: DashboardPageProps) {
     const month = params.month ?? dayjs().format("MM");
     const data = await getDashboard(month);
     return (
-        <div className="flex min-h-screen bg-[#0F111A]">
+        <div className="flex min-h-[100dvh] overflow-x-hidden bg-[#0F111A]">
             <Sidebar />
-            <div className="flex flex-1 flex-col">
+            <div className="flex flex-1 flex-col min-w-0">
                 <Header userName={data.session.user.name} />
-                <main className="p-8 space-y-8">
+                <main className="flex-1 min-w-0 p-4 md:p-8 space-y-8">
                     <section className="grid lg:grid-cols-3 grid-cols-1 gap-6">
                         <div className="lg:col-span-2 col-span-1">
                             <BalanceCard

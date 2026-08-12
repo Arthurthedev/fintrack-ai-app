@@ -153,3 +153,8 @@
     @apply font-sans;
   }
 }
+
+html, body {
+  overflow-x: hidden;
+  background-color: #0F111A;
+}
