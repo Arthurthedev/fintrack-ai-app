@@ -102,7 +102,7 @@ Responda em português do Brasil de forma extremamente resumida e direta (máxim
 
     try {
         const completion = await openai.chat.completions.create({
-            model: "llama-3.1-8b-instant",
+            model: "openai/gpt-oss-20b",
             messages: [
                 {
                     role: "system",
@@ -111,7 +111,8 @@ Responda em português do Brasil de forma extremamente resumida e direta (máxim
                 },
                 { role: "user", content: userContent },
             ],
-            max_tokens: 350,
+            max_completion_tokens: 350,
+            temperature: 0.5,
         });
 
         const suggestion =

@@ -60,7 +60,7 @@ Esses insights são gerados dinamicamente com base nos dados reais do usuário.
 
 ### Inteligência Artificial
 ![Groq](https://img.shields.io/badge/Groq-000000?style=for-the-badge)
-> **Modelo:** LLaMA 3.1 8B Instant (via Groq Cloud API)
+> **Modelo:** GPT OSS 20B (via Groq Cloud API)
 
 >**SDK:** OpenAI-compatible client
 
