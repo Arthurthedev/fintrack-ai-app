@@ -157,4 +157,5 @@
 html, body {
   overflow-x: hidden;
   background-color: #0F111A;
+  width: 100vw;
 }
