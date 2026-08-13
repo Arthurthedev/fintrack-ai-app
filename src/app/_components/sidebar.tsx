@@ -24,6 +24,7 @@ export default function Sidebar() {
         <aside
             className={`${inter.className} flex md:w-64 w-[68px] flex-col border-r border-[#1E293B] bg-[#0F111A] text-[#F1F5F9]`}
         >
+            <Link href={"/"}>
             <div className="flex flex-col items-center md:flex-row md:gap-3 px-4 md:px-6 py-6">
                 <div className="bg-[#9333EA] rounded-xl py-4 px-2.5">
                     <Image src={logo} alt="FinTrack" priority />
@@ -33,6 +34,8 @@ export default function Sidebar() {
                     FinTrack
                 </p>
             </div>
+            </Link>
+            
 
             <nav className="flex flex-1 flex-col gap-2 px-2 md:px-4 py-4">
                 <Link
