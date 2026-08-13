@@ -3,7 +3,7 @@ import { AuthLayout } from "../_components/auth-layout";
 import ArrowIcon from "../../../assets/auth/arrow-icon.png";
 import Image from "next/image";
 import { inputClass } from "../_styles/input";
-
+import { Eye, EyeOff } from "lucide-react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -23,6 +23,7 @@ type SignInFormData = z.infer<typeof signInFormSchema>;
 
 export default function SingInPage() {
     const [apiError, setApiError] = useState<string>("");
+    const [showPassword, setShowPassword] = useState(false);
     const router = useRouter();
 
     const {
@@ -49,7 +50,8 @@ export default function SingInPage() {
 
             if (err) {
                 setApiError(
-                    err.message ?? "Erro ao entrar na conta. Tente outro email.",
+                    err.message ??
+                        "Erro ao entrar na conta. Tente outro email.",
                 );
                 return;
             }
@@ -91,12 +93,29 @@ export default function SingInPage() {
                 <label className="block text-sm text-zinc-300 mb-2">
                     Senha
                 </label>
-                <input
-                    type="password"
-                    placeholder="••••••••"
-                    className={inputClass}
-                    {...register("password")}
-                />
+                <div className="relative">
+                    <input
+                        type={showPassword ? "text" : "password"}
+                        placeholder="••••••••"
+                        className={`${inputClass} pr-10`}
+                        {...register("password")}
+                    />
+
+                    <button
+                        type="button"
+                        onClick={() => setShowPassword((prev) => !prev)}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-white"
+                        aria-label={
+                            showPassword ? "Ocultar senha" : "Mostrar senha"
+                        }
+                    >
+                        {showPassword ? (
+                            <EyeOff size={18} />
+                        ) : (
+                            <Eye size={18} />
+                        )}
+                    </button>
+                </div>
                 {errors.password && (
                     <p className="text-xs text-red-500">
                         {errors.password.message}
@@ -113,7 +132,7 @@ export default function SingInPage() {
                     disabled={isSubmitting}
                     className="w-full bg-[#9333EA] flex items-center justify-center rounded-2xl py-4 gap-2 font-semibold cursor-pointer"
                 >
-                    <span>{isSubmitting ? 'Entrando...' : "Entrar"}</span>
+                    <span>{isSubmitting ? "Entrando..." : "Entrar"}</span>
                     <Image
                         src={ArrowIcon}
                         alt="imagem de seta da página de login"
